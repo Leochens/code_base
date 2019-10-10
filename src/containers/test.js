@@ -3,15 +3,9 @@ import Highlight from 'react-highlight';
 import '../../node_modules/highlight.js/styles/github.css'
 
 
-export default class BigInput extends Component {
+export default class Test extends Component {
     state = {
         text: ``
-    }
-    static defaultProps = {
-        language: 'html'
-    }
-    constructor(props) {
-        super(props);
     }
     onChange = (e) => {
         const text = e.target.value;
@@ -21,6 +15,7 @@ export default class BigInput extends Component {
     }
     onKeyDown = (e) => {
         const { text } = this.state;
+        console.log(e.key);
         if (e.key === 'Tab') {
             const start = e.target.selectionStart;
             const _text = text.slice(0, start) + '    ' + text.slice(start);
@@ -38,21 +33,11 @@ export default class BigInput extends Component {
         }
     }
     render() {
-        return (
-            <div>
-                <textarea
-                    className="text-bold text-lg"
-                    cols="50"
-                    rows="3"
-                    onChange={this.onChange}
-                    onKeyDown={this.onKeyDown}
-                    value={this.state.text}>
-                </textarea>
-                <Highlight className={this.props.language}>
-                    {this.state.text}
-                </Highlight>
-            </div>
-        )
-
+        return <div>
+            <textarea cols="100" rows="20" onChange={this.onChange} onKeyDown={this.onKeyDown} value={this.state.text}></textarea>
+            <Highlight className="javascript">
+                {this.state.text}
+            </Highlight>
+        </div>
     }
 }

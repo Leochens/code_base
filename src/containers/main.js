@@ -8,7 +8,7 @@ import '../App.css';
 
 class Main extends Component {
     state = {
-        a: 'lalal'
+
     }
     constructor(props) {
         super(props);
@@ -25,7 +25,7 @@ class Main extends Component {
         return (
             <div className="App">
                 <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
+                    {/* <img src={logo} className="App-logo" alt="logo" /> */}
                     <BigInput></BigInput>
                     <a
                         className="App-link"
