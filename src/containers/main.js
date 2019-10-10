@@ -7,35 +7,17 @@ import { add } from '../actions/index';
 import '../App.css';
 
 class Main extends Component {
-    state = {
-
-    }
-    constructor(props) {
-        super(props);
+    state = {   
 
     }
     componentDidMount() {
         console.log(this.props);
     }
-    onClick = () => {
-        const { add } = this.props;
-        add && add(12);
-    }
     render() {
         return (
             <div className="App">
                 <header className="App-header">
-                    {/* <img src={logo} className="App-logo" alt="logo" /> */}
                     <BigInput></BigInput>
-                    <a
-                        className="App-link"
-                        href="https://reactjs.org"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        The Value from store is {this.props.value}
-                    </a>
-                    <button onClick={this.onClick}>ADD</button>
                 </header>
             </div>
         );

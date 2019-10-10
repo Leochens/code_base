@@ -16,7 +16,18 @@
   font-size: 25px;
   color: white;
 }
-
+.textarea{
+  width: 100%;
+}
+.flex{
+  /* display: flex; */
+  width: 100%;
+  text-align: center;
+  background: #fff;
+  border-radius: 6px;
+  color: #282c34;
+  line-height: 26px;;
+}
 .App-link {
   color: #09d3ac;
 }

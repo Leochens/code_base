@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import Highlight from 'react-highlight';
 import '../../node_modules/highlight.js/styles/github.css'
+import './BigInput.scss';
+/* 
+代码输入组件
+功能：
+    1. 将用户输入的代码存起来
+    2. 可以选择语言
+    3. 
 
+
+*/
 
 export default class BigInput extends Component {
     state = {
-        text: ``
+        text: '',
+        isEdit: false
     }
     static defaultProps = {
         language: 'html'
@@ -13,6 +23,13 @@ export default class BigInput extends Component {
     constructor(props) {
         super(props);
     }
+    toggleEdit = () => {
+        const { isEdit } = this.state;
+        this.setState({
+            isEdit: !isEdit
+        })
+    }
+
     onChange = (e) => {
         const text = e.target.value;
         this.setState({
@@ -40,17 +57,20 @@ export default class BigInput extends Component {
     render() {
         return (
             <div>
+                <Highlight className={this.props.language}>
+                    {this.state.text}
+                </Highlight>
                 <textarea
-                    className="text-bold text-lg"
+                    hidden={!this.state.isEdit}
+                    className="textarea text-bold text-lg"
                     cols="50"
                     rows="3"
                     onChange={this.onChange}
                     onKeyDown={this.onKeyDown}
                     value={this.state.text}>
                 </textarea>
-                <Highlight className={this.props.language}>
-                    {this.state.text}
-                </Highlight>
+
+                <button className="inp-button" onClick={this.toggleEdit} >{this.isEdit ? '完成' : '编辑'}</button>
             </div>
         )
 
