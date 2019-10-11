@@ -1,6 +1,32 @@
 $INP:'inp';
 .#{$INP}{
+    width: 80%;
+    margin: auto;
+    position: relative;
     &-button{
+        display: block;
         color: #000;
+        width: 50%;
+        margin: 0 auto;
+        border-radius: 6px;
+        line-height: 30px;
+    }
+    .hl{
+        width: 100%;
+        margin: auto;
+        max-height: 300px;
+        min-height: 100px;
+        overflow: auto;
+    }
+    .close{
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 100px;
+        display: block;
+        z-index: -100;
+    }
+    .open{
+        width: 100%;
     }
 }

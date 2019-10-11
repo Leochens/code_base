@@ -1,3 +1,35 @@
+.inp {
+  width: 80%;
+  margin: auto;
+  position: relative;
+}
+
 .inp-button {
+  display: block;
   color: #000;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 6px;
+  line-height: 30px;
+}
+
+.inp .hl {
+  width: 100%;
+  margin: auto;
+  max-height: 300px;
+  min-height: 100px;
+  overflow: auto;
+}
+
+.inp .close {
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 100px;
+  display: block;
+  z-index: -100;
+}
+
+.inp .open {
+  width: 100%;
 }

@@ -17,7 +17,7 @@ class Main extends Component {
         return (
             <div className="App">
                 <header className="App-header">
-                    <BigInput></BigInput>
+                    <BigInput language="javascript"></BigInput>
                 </header>
             </div>
         );

@@ -5,10 +5,9 @@ import './BigInput.scss';
 /* 
 代码输入组件
 功能：
-    1. 将用户输入的代码存起来
-    2. 可以选择语言
-    3. 
-
+    1. 显示代码
+    2. 编辑代码
+    3. 将用户输入的代码存起来
 
 */
 
@@ -18,10 +17,15 @@ export default class BigInput extends Component {
         isEdit: false
     }
     static defaultProps = {
-        language: 'html'
+        language: 'html',
+        text: '',
+        onlyShow: false,
+        onGetText: (text) => { console.log(text) }
     }
-    constructor(props) {
-        super(props);
+    componentDidMount() {
+        this.setState({
+            text: this.props.text
+        })
     }
     toggleEdit = () => {
         const { isEdit } = this.state;
@@ -29,7 +33,6 @@ export default class BigInput extends Component {
             isEdit: !isEdit
         })
     }
-
     onChange = (e) => {
         const text = e.target.value;
         this.setState({
@@ -54,23 +57,32 @@ export default class BigInput extends Component {
             })
         }
     }
+    handleGetText = () => {
+        const { onGetText } = this.props;
+        const { text } = this.state;
+        onGetText && onGetText(text);
+    }
+
     render() {
         return (
-            <div>
-                <Highlight className={this.props.language}>
-                    {this.state.text}
-                </Highlight>
-                <textarea
-                    hidden={!this.state.isEdit}
-                    className="textarea text-bold text-lg"
-                    cols="50"
-                    rows="3"
-                    onChange={this.onChange}
-                    onKeyDown={this.onKeyDown}
-                    value={this.state.text}>
-                </textarea>
+            <div className="inp">
+                <label htmlFor="hl" >
+                    <Highlight className={this.props.language + " hl"}>
+                        {this.state.text}
+                    </Highlight>
+                </label>
+                <div hidden={this.props.onlyShow}>
+                    <textarea
+                        id="hl"
+                        className={this.state.isEdit ? 'open' : 'close'}
+                        onChange={this.onChange}
+                        onKeyDown={this.onKeyDown}
+                        value={this.state.text}>
+                    </textarea>
+                    <button className="inp-button" onClick={this.toggleEdit} >{this.state.isEdit ? '完成' : '编辑'}</button>
+                    <button className="inp-button" onClick={this.handleGetText}>保存</button>
+                </div>
 
-                <button className="inp-button" onClick={this.toggleEdit} >{this.isEdit ? '完成' : '编辑'}</button>
             </div>
         )
 
