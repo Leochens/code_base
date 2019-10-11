@@ -1,7 +1,7 @@
-import { ADD } from './types';
-export const add = () => {
-    console.log("hhhh")
+import { ADD_CODE } from './types';
+export const addCode = () => {
+
     return {
-        type: ADD
+        type: ADD_CODE
     }
 }

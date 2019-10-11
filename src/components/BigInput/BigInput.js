@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Highlight from 'react-highlight';
-import '../../node_modules/highlight.js/styles/github.css'
+import '../../../node_modules/highlight.js/styles/github.css'
 import './BigInput.scss';
 /* 
 代码输入组件
@@ -12,17 +12,23 @@ import './BigInput.scss';
 */
 
 export default class BigInput extends Component {
-    state = {
-        text: '',
-        isEdit: false
-    }
     static defaultProps = {
         language: 'html',
         text: '',
         onlyShow: false,
         onGetText: (text) => { console.log(text) }
     }
+    state = {
+        text: '',
+        isEdit: false
+    }
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            text: nextProps.text
+        })
+    }
     componentDidMount() {
+        console.log(this.props);
         this.setState({
             text: this.props.text
         })
