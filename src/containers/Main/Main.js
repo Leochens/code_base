@@ -15,6 +15,11 @@ class Main extends Component {
             curCodeId: '1'
         }
     }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            codes: nextProps.codes
+        })
+    }
     handleAddCode = (text) => {
         const { addCode } = this.props;
         addCode && addCode(text);

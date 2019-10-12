@@ -1,4 +1,4 @@
-import { ADD_CODE } from '../actions/types';
+import { ADD_CODE, DELETE_BADGE, DELETE_CODE, UPDATE_CODE, UPDATE_TITLE, SEARCH_CODE, ADD_BADGE } from '../actions/types';
 const initValue = [
     {
         title: 'js练手',
@@ -74,8 +74,72 @@ const test = (state = initValue, action) => {
     const { type } = action;
     switch (type) {
         case ADD_CODE: {
-            console.log("hello add")
-            return state;
+            const { code } = action;
+            let newState = state.slice();
+            newState.push(code);
+
+            return newState;
+        }
+        case DELETE_CODE: {
+            const { id } = action;
+            let newState = state.slice();
+            newState = newState.filter((item, idx) => item.id != id);
+            return newState;
+        }
+        case UPDATE_CODE: {
+            const { id, code } = action;
+            let newState = state.slice();
+            let idx = -1;
+            for (let key in newState) {
+                let item = newState[key];
+                if (item.id === id) {
+                    idx = key;
+                }
+            }
+            newState[idx] = { ...code };
+            return newState;
+        }
+        case ADD_BADGE: {
+            const { id, badge } = action;
+            let newState = state.slice();
+            newState.forEach((item, idx) => {
+                if (item.id === id) {
+                    const newItem = { ...item };
+                    newItem.badges = [...newItem.badges, badge]
+                    item = newItem
+                }
+            });
+            return newState;
+        }
+        case DELETE_BADGE: {
+            const { codeId, badge } = action;
+            let newState = state.slice();
+            newState.forEach((item, idx) => {
+                if (item.id === codeId) {
+                    const newItem = { ...item };
+                    const badges = [...newItem.badges];
+                    if (badges.includes(badge)) {
+                        badges.splice(badges.indexOf(badge), 1);
+                        newItem.badges = badges;
+                    }
+                    item = newItem
+                }
+            });
+            return newState;
+        }
+        case UPDATE_TITLE: {
+            const { id, title } = action;
+            let newState = state.slice();
+            newState.forEach((item, idx) => {
+                if (item.id === id) {
+                    item = {
+                        ...item,
+                        title
+                    }
+                }
+            });
+            return newState;
+
         }
         default:
             return state;
