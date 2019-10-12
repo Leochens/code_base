@@ -3,7 +3,7 @@ import BigInput from '../../components/BigInput/BigInput';
 import SideBar from '../../components/SideBar/SideBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addCode } from '../../actions/index';
+import { addCode, updateCode, deleteCode, deleteBadge, addBadge } from '../../actions/index';
 import './Main.scss';
 
 class Main extends Component {
@@ -12,7 +12,8 @@ class Main extends Component {
         console.log(props);
         this.state = {
             codes: props.codes,
-            curCodeId: '1'
+            curCodeId: props.codes[0].id,
+            curCode: props.codes[0]
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -32,24 +33,55 @@ class Main extends Component {
         })
     }
     handleSelectCode = id => {
+        const { codes } = this.state;
+        const code = codes.filter((item, idx) => item.id === id).pop();
+
         this.setState({
-            curCodeId: id
+            curCodeId: id,
+            curCode: code
         })
+    }
+    handleGetText = (text) => {
+        const { updateCode } = this.props;
+        const { curCode, curCodeId } = this.state;
+        if (!curCode) return;
+        curCode.text = text;
+        updateCode && updateCode(curCodeId, curCode)
+    }
+    handleDeleteCode = () => {
+        const { curCodeId } = this.state;
+        const { deleteCode } = this.props;
+        console.log(curCodeId, deleteCode);
+        deleteCode && deleteCode(curCodeId);
+        this.setState({
+            curCodeId: -1,
+            curCode: {}
+        })
+    }
+    finishInput = (e) => {
+        console.log(e.currentTarget.innerHTML);
+        const title = e.currentTarget.innerHTML;
+        const { curCode, curCodeId } = this.state;
+        if (!curCode) return;
+
+        curCode.title = title;
+        updateCode && updateCode(curCodeId, curCode)
     }
     renderCurCode = () => {
         const { curCodeId } = this.state;
         const { codes } = this.state;
         console.log(codes)
         const code = codes.filter((item, idx) => {
-            return item.id + '' === curCodeId
+            return item.id === curCodeId
         }).pop();
         if (!code) return '';
         console.log(code.text);
         return (
-            <div>
-                <div className="code-title">{code.title}</div>
-                <BigInput onlyShow={false} id={code.id} language={code.language} text={code.text} ></BigInput>
-            </div>
+            <BigInput
+                onGetText={this.handleGetText}
+                id={code.id}
+                language={code.language}
+                text={code.text} ></BigInput>
         )
 
     }
@@ -58,10 +90,19 @@ class Main extends Component {
             <div className="main">
 
                 <div className="side-bar">
-                    <SideBar codeList={this.props.codes} onSelectCode={this.handleSelectCode}></SideBar>
+                    <SideBar codeList={this.state.codes} onSelectCode={this.handleSelectCode}></SideBar>
                 </div>
                 <header className="code-page">
-                    {this.renderCurCode()}
+                    <div hidden={this.state.curCodeId === -1}>
+                        <div
+                            onBlur={this.finishInput}
+                            suppressContentEditableWarning
+                            contentEditable={true} className="code-title">{this.state.curCode.title}</div>
+                        {this.renderCurCode()}
+                        <button className="del-btn" onClick={this.handleDeleteCode} >删除本片段</button>
+                    </div>
+
+
                 </header>
                 {this.props.children}
             </div>
@@ -75,7 +116,9 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        addCode: bindActionCreators(addCode, dispatch)
+        addCode: bindActionCreators(addCode, dispatch),
+        updateCode: bindActionCreators(updateCode, dispatch),
+        deleteCode: bindActionCreators(deleteCode, dispatch),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -35,6 +35,9 @@ export default class BigInput extends Component {
     }
     toggleEdit = () => {
         const { isEdit } = this.state;
+        if(isEdit){
+            this.handleGetText();            
+        }
         this.setState({
             isEdit: !isEdit
         })
@@ -64,15 +67,15 @@ export default class BigInput extends Component {
         }
     }
     handleGetText = () => {
-        const { onGetText } = this.props;
+        const { onGetText,id } = this.props;
         const { text } = this.state;
-        onGetText && onGetText(text);
+        onGetText && onGetText(text,id);
     }
 
     render() {
         return (
             <div className="inp">
-                <label htmlFor="hl" >
+                <label htmlFor="hl" onDoubleClick={this.toggleEdit} >
                     <Highlight className={this.props.language + " hl"}>
                         {this.state.text}
                     </Highlight>
@@ -85,8 +88,8 @@ export default class BigInput extends Component {
                         onKeyDown={this.onKeyDown}
                         value={this.state.text}>
                     </textarea>
-                    <button className="inp-button" onClick={this.toggleEdit} >{this.state.isEdit ? '完成' : '编辑'}</button>
-                    <button className="inp-button" onClick={this.handleGetText}>保存</button>
+                    {/* <button className="inp-button" onClick={this.toggleEdit} >{this.state.isEdit ? '完成' : '编辑'}</button> */}
+                    {/* <button className="inp-button" onClick={this.handleGetText}>保存</button> */}
                 </div>
 
             </div>

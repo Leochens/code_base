@@ -11,10 +11,11 @@ export default class SideBar extends Component {
             return <span key={idx} className="badge">{item}</span>
         })
     }
+
     handleSelectCode = (e) => {
         console.log(e.target.id);
         const { onSelectCode } = this.props;
-        const id = e.target.id;
+        const id = parseInt(e.target.id);
         onSelectCode && onSelectCode(id);
     }
     renderList() {
