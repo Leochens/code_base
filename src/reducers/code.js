@@ -1,4 +1,4 @@
-import { ADD_CODE, DELETE_BADGE, DELETE_CODE, UPDATE_CODE, UPDATE_TITLE, SEARCH_CODE, ADD_BADGE } from '../actions/types';
+import { ADD_CODE, DELETE_BADGE, DELETE_CODE, UPDATE_CODE, SEARCH_CODE, ADD_BADGE } from '../actions/types';
 const initValue = [
     {
         title: 'js练手',
@@ -70,6 +70,7 @@ const initValue = [
         language: 'html'
     }
 ]
+
 const test = (state = initValue, action) => {
     const { type } = action;
     switch (type) {
@@ -105,7 +106,7 @@ const test = (state = initValue, action) => {
             newState.forEach((item, idx) => {
                 if (item.id === id) {
                     const newItem = { ...item };
-                    newItem.badges = [...newItem.badges, badge]
+                    newItem.badges.push(badge);
                     item = newItem
                 }
             });
@@ -117,29 +118,12 @@ const test = (state = initValue, action) => {
             newState.forEach((item, idx) => {
                 if (item.id === codeId) {
                     const newItem = { ...item };
-                    const badges = [...newItem.badges];
-                    if (badges.includes(badge)) {
-                        badges.splice(badges.indexOf(badge), 1);
-                        newItem.badges = badges;
-                    }
+                    if (newItem.badges.includes(badge))
+                        newItem.badges.splice(newItem.badges.indexOf(badge), 1);
                     item = newItem
                 }
             });
             return newState;
-        }
-        case UPDATE_TITLE: {
-            const { id, title } = action;
-            let newState = state.slice();
-            newState.forEach((item, idx) => {
-                if (item.id === id) {
-                    item = {
-                        ...item,
-                        title
-                    }
-                }
-            });
-            return newState;
-
         }
         default:
             return state;
