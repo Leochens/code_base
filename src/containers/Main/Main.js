@@ -85,12 +85,19 @@ class Main extends Component {
         )
 
     }
+    handleAddCode = () => {
+        console.log('add');
+    }
     render() {
         return (
             <div className="main">
 
                 <div className="side-bar">
-                    <SideBar codeList={this.state.codes} onSelectCode={this.handleSelectCode}></SideBar>
+                    <SideBar codeList={this.state.codes} onSelectCode={this.handleSelectCode}>
+                        <div className="options">
+                            <button className="btn" onClick={this.handleAddCode}>添加代码</button>
+                        </div>
+                    </SideBar>
                 </div>
                 <header className="code-page">
                     <div hidden={this.state.curCodeId === -1}>
@@ -101,10 +108,8 @@ class Main extends Component {
                         {this.renderCurCode()}
                         <button className="del-btn" onClick={this.handleDeleteCode} >删除本片段</button>
                     </div>
-
-
                 </header>
-                {this.props.children}
+
             </div>
         );
     }

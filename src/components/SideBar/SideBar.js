@@ -36,6 +36,9 @@ export default class SideBar extends Component {
         return (
             <div className="side-bar">
                 {this.renderList()}
+                <div className="extra">
+                    {this.props.children}
+                </div>
             </div>
         )
     }

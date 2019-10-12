@@ -35,12 +35,13 @@ export default class BigInput extends Component {
     }
     toggleEdit = () => {
         const { isEdit } = this.state;
-        if(isEdit){
-            this.handleGetText();            
-        }
         this.setState({
             isEdit: !isEdit
         })
+        if(isEdit){
+            this.handleGetText();            
+        }
+
     }
     onChange = (e) => {
         const text = e.target.value;

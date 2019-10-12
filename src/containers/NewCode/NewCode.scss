@@ -1,0 +1,28 @@
+.new-code-page{
+    width: 90%;
+    height: 100%;
+    min-height: 300px;
+    margin: 5% auto;
+    display: flex;
+    
+    .input-part{
+        width: 50%;
+        margin-right: 2.5%;
+        background-color: #f00;
+        height: 100%;
+        .t{
+            width: 100%;
+            // border: none;
+            resize: none;
+            height: 100%;
+        }
+    }
+    .show-part{
+        width: 50%;
+        margin-left: 2.5%;
+        background-color: #ff0;
+        height: 100%;
+
+    }
+
+}
