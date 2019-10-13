@@ -1,4 +1,4 @@
-import { ADD_CODE, DELETE_BADGE, DELETE_CODE, UPDATE_CODE, SEARCH_CODE, ADD_BADGE } from '../actions/types';
+import { ADD_CODE, DELETE_BADGE, DELETE_CODE, UPDATE_CODE, SEARCH_CODE, FETCH_CODE, ADD_BADGE } from '../actions/types';
 import createReducer from '../utils/createReducer';
 const initValue = [
     {
@@ -104,12 +104,19 @@ const deleteBadge = (state, action) => {
     });
     return newState;
 }
+
+const fetchCodeSuc = (state, action) => {
+
+    console.log(action);
+    return state;
+}
 const code = createReducer(initValue, {
     [ADD_CODE]: addCode,
     [DELETE_CODE]: deleteCode,
     [UPDATE_CODE]: updateCode,
     [ADD_BADGE]: addBadge,
-    [DELETE_BADGE]: deleteBadge
+    [DELETE_BADGE]: deleteBadge,
+    [FETCH_CODE + '_SUC']: fetchCodeSuc
 })
 
 

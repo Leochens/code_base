@@ -9,7 +9,7 @@ import './Main.scss';
 class Main extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
+        // console.log(props);
         this.state = {
             codes: props.codes,
             curCodeId: props.codes[0].id,
@@ -27,7 +27,7 @@ class Main extends Component {
     }
     renderCodeList = () => {
         const { codes } = this.state;
-        console.log(codes);
+        // console.log(codes);
         return codes.map((item, idx) => {
             return <BigInput onlyShow={true} key={idx} id={item.id} language={item.language} text={item.text} ></BigInput>
         })
@@ -59,7 +59,7 @@ class Main extends Component {
         })
     }
     finishInput = (e) => {
-        console.log(e.currentTarget.innerHTML);
+        // console.log(e.currentTarget.innerHTML);
         const title = e.currentTarget.innerHTML;
         const { curCode, curCodeId } = this.state;
         if (!curCode) return;
@@ -70,12 +70,12 @@ class Main extends Component {
     renderCurCode = () => {
         const { curCodeId } = this.state;
         const { codes } = this.state;
-        console.log(codes)
+        // console.log(codes)
         const code = codes.filter((item, idx) => {
             return item.id === curCodeId
         }).pop();
         if (!code) return '';
-        console.log(code.text);
+        // console.log(code.text);
         return (
             <BigInput
                 onGetText={this.handleGetText}
@@ -107,6 +107,7 @@ class Main extends Component {
                             contentEditable={true} className="code-title">{this.state.curCode.title}</div>
                         {this.renderCurCode()}
                         <button className="del-btn" onClick={this.handleDeleteCode} >删除本片段</button>
+                        <button className="del-btn" onClick={this.props.test} >test</button>
                     </div>
                 </header>
 
@@ -124,6 +125,7 @@ const mapDispatchToProps = (dispatch) => {
         addCode: bindActionCreators(addCode, dispatch),
         updateCode: bindActionCreators(updateCode, dispatch),
         deleteCode: bindActionCreators(deleteCode, dispatch),
+        test: () => dispatch({ type: 'FETCH_CODE' })
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
