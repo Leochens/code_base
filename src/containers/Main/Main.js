@@ -3,7 +3,7 @@ import BigInput from '../../components/BigInput/BigInput';
 import SideBar from '../../components/SideBar/SideBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addCode, updateCode, deleteCode, deleteBadge, addBadge } from '../../actions/index';
+import actions from '../../actions/index';
 import './Main.scss';
 
 class Main extends Component {
@@ -12,8 +12,8 @@ class Main extends Component {
         // console.log(props);
         this.state = {
             codes: props.codes,
-            curCodeId: props.codes[0].id,
-            curCode: props.codes[0]
+            curCodeId: props.codes[0] ? props.code[0].id : -1,
+            curCode: props.codes[0] || {}
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -63,7 +63,7 @@ class Main extends Component {
         const title = e.currentTarget.innerHTML;
         const { curCode, curCodeId } = this.state;
         if (!curCode) return;
-
+        const { updateCode } = this.props;
         curCode.title = title;
         updateCode && updateCode(curCodeId, curCode)
     }
@@ -96,18 +96,18 @@ class Main extends Component {
                     <SideBar codeList={this.state.codes} onSelectCode={this.handleSelectCode}>
                         <div className="options">
                             <button className="btn" onClick={this.handleAddCode}>添加代码</button>
+                            <button className="del-btn" onClick={this.props.test} >test</button>
                         </div>
                     </SideBar>
                 </div>
                 <header className="code-page">
-                    <div hidden={this.state.curCodeId === -1}>
+                    <div hidden={this.state.curCodeId === -1 || !this.state.curCode}>
                         <div
                             onBlur={this.finishInput}
                             suppressContentEditableWarning
                             contentEditable={true} className="code-title">{this.state.curCode.title}</div>
                         {this.renderCurCode()}
                         <button className="del-btn" onClick={this.handleDeleteCode} >删除本片段</button>
-                        <button className="del-btn" onClick={this.props.test} >test</button>
                     </div>
                 </header>
 
@@ -122,10 +122,10 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        addCode: bindActionCreators(addCode, dispatch),
-        updateCode: bindActionCreators(updateCode, dispatch),
-        deleteCode: bindActionCreators(deleteCode, dispatch),
-        test: () => dispatch({ type: 'FETCH_CODE' })
+        addCode: bindActionCreators(actions.addCode, dispatch),
+        updateCode: bindActionCreators(actions.updateCode, dispatch),
+        deleteCode: bindActionCreators(actions.deleteCode, dispatch),
+        test: bindActionCreators(actions.fetchCode, dispatch),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

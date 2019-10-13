@@ -3,7 +3,7 @@ import axios from 'axios';
 export default function httpRequest(options) {
     const { type, url, data } = options;
     return new Promise((resolve, reject) => {
-        if (type == 'get') {
+        if (type === 'get') {
             axios.get(url, {
                 params: data
             }).then(res => {

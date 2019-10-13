@@ -1,5 +1,5 @@
 const apiList = {
-    FETCH_CODE: 'http://localhost:53000/codes'
+    base: 'http://localhost:53000'
 }
 
 export default apiList;
