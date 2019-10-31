@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fragments>
+    <fragment id="1">
+        <title>js练手</title>
+        <language>C</language>
+        <badges>
+            <badge>react</badge>
+            <badge>react</badge>
+        </badges>
+        <text>
+           #include &lt;stdio.h&gt; 
+        </text>
+    </fragment>
+        <fragment id="2">
+        <title>js练手</title>
+        <language>C</language>
+        <badges>
+            <badge>react</badge>
+            <badge>react</badge>
+        </badges>
+        <text>
+           #include
+        </text>
+    </fragment>
+        <fragment id="3">
+        <title>js练手</title>
+        <language>C</language>
+        <badges>
+            <badge>react</badge>
+            <badge>react</badge>
+        </badges>
+        <text>
+           #include
+        </text>
+    </fragment>
+        <fragment id="4">
+        <title>js练手</title>
+        <language>C</language>
+        <badges>
+            <badge>react</badge>
+            <badge>react</badge>
+        </badges>
+        <text>
+           #include
+        </text>
+    </fragment>
+</fragments>
