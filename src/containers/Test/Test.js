@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import utils from '../../utils/xml';
 
-async function test(){
+async function test() {
     const dom = await utils.loadXML();
     console.log(dom);
-
+    const d = JSON.parse(JSON.stringify(dom));
+    console.log(d);
+    d.fragments.fragment[1].text = "if(x === 0 && y === 1) ".replace(/&/g, '!!tag:amp!!');
+    utils.saveToXML(d);
 }
 test();
 const Test = props => {

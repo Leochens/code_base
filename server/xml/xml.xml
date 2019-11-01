@@ -1,47 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fragments>
-    <fragment id="1">
-        <title>js练手</title>
-        <language>C</language>
-        <badges>
-            <badge>react</badge>
-            <badge>react</badge>
-        </badges>
-        <text>
-           #include &lt;stdio.h&gt; 
-        </text>
-    </fragment>
-        <fragment id="2">
-        <title>js练手</title>
-        <language>C</language>
-        <badges>
-            <badge>react</badge>
-            <badge>react</badge>
-        </badges>
-        <text>
-           #include
-        </text>
-    </fragment>
-        <fragment id="3">
-        <title>js练手</title>
-        <language>C</language>
-        <badges>
-            <badge>react</badge>
-            <badge>react</badge>
-        </badges>
-        <text>
-           #include
-        </text>
-    </fragment>
-        <fragment id="4">
-        <title>js练手</title>
-        <language>C</language>
-        <badges>
-            <badge>react</badge>
-            <badge>react</badge>
-        </badges>
-        <text>
-           #include
-        </text>
-    </fragment>
+  <fragment>
+    <id>0</id>
+    <title>js练手</title>
+    <badges/>
+    <text>#include</text>
+    <language>C</language>
+  </fragment>
+  <fragment>
+    <id>1</id>
+    <title>js练手</title>
+    <badges/>
+    <text>if(x === 0 &amp;&amp; y === 1) </text>
+    <language>C</language>
+  </fragment>
+  <fragment>
+    <id>2</id>
+    <title>js练手</title>
+    <badges/>
+    <text>#include</text>
+    <language>C</language>
+  </fragment>
+  <fragment>
+    <id>3</id>
+    <title>js练手</title>
+    <badges/>
+    <text>#include</text>
+    <language>C</language>
+  </fragment>
 </fragments>
