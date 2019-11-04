@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
 
 const _DropDown = props => {
-    const { onClick } = props;
-    const getMenu = onClick => ['C', 'C++', 'javascript', 'python', 'php', 'java'].map((item, idx) => {
+    const { onClick, curLang } = props;
+    const [lang, setLang] = useState(curLang);
+    const getMenu = onClick => [
+        'C',
+        'cpp',
+        'javascript',
+        'python',
+        'php',
+        'java',
+        'sql',
+        'bash',
+        'ruby',
+        'go',
+        'typescript',
+        'xml',
+        'apache',
+        'text'
+    ].map((item, idx) => {
         return (
-            <Menu.Item key={idx} onClick={() => onClick(item)}>
+            <Menu.Item key={idx} onClick={() => {
+                onClick(item)
+                setLang(item);
+            }}>
                 {item}
             </Menu.Item>
         )
@@ -17,7 +36,7 @@ const _DropDown = props => {
             </Menu>
         }}>
             <a className="ant-dropdown-link" href="#">
-                更改语言 <Icon type="down" />
+                设置语言{lang || ":"} <Icon type="down" />
             </a>
         </Dropdown>
     )

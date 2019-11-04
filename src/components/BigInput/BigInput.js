@@ -22,9 +22,10 @@ export default class BigInput extends Component {
         text: '',
         isEdit: false
     }
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         this.setState({
-            text: nextProps.text
+            text: nextProps.text,
+            language: nextProps.language
         })
     }
     componentDidMount() {
@@ -38,8 +39,8 @@ export default class BigInput extends Component {
         this.setState({
             isEdit: !isEdit
         })
-        if(isEdit){
-            this.handleGetText();            
+        if (isEdit) {
+            this.handleGetText();
         }
 
     }
@@ -68,9 +69,9 @@ export default class BigInput extends Component {
         }
     }
     handleGetText = () => {
-        const { onGetText,id } = this.props;
+        const { onGetText, id } = this.props;
         const { text } = this.state;
-        onGetText && onGetText(text,id);
+        onGetText && onGetText(text, id);
     }
 
     render() {

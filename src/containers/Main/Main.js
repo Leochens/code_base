@@ -4,7 +4,7 @@ import SideBar from '../../components/SideBar/SideBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AddingModal from '../../components/AddingModal/AddingModal';
-import { Button, Input, Tag, Layout, Col, Row, message } from 'antd';
+import { Button, Input, Tag, Layout, Col, Row, message, Icon } from 'antd';
 import DropDown from '../../components/DropDown/DropDown';
 import { addCode, updateCode, deleteCode, deleteBadge, addBadge, fetchCode } from '../../actions/index';
 import xml from '../../utils/xml';
@@ -62,7 +62,8 @@ class Main extends Component {
     }
     handleSelectCode = id => {
         const { codes } = this.state;
-        const code = codes.filter((item, idx) => item.id == id).pop();
+        console.log(id);
+        const code = codes.filter((item, idx) => item.id[0] == id).pop();
 
         this.setState({
             curCodeId: id,
@@ -73,7 +74,29 @@ class Main extends Component {
         const { updateCode } = this.props;
         const { curCode, curCodeId } = this.state;
         if (!curCode) return;
-        curCode.text[0] = text;
+        const newCurCode = { ...curCode };
+        this.setState({
+            curCode: {
+                ...this.state.curCode,
+                text: [text]
+            }
+        })
+        newCurCode.text[0] = text;
+        updateCode && updateCode(curCodeId, curCode)
+        message.success("修改成功");
+    }
+    handleChangeLang = (lang) => {
+        const { updateCode } = this.props;
+        const { curCode, curCodeId } = this.state;
+        if (!curCode) return;
+        const newCurCode = { ...curCode };
+        this.setState({
+            curCode: {
+                ...this.state.curCode,
+                language: [lang]
+            }
+        })
+        newCurCode.language[0] = lang;
 
         updateCode && updateCode(curCodeId, curCode)
         message.success("修改成功");
@@ -117,26 +140,39 @@ class Main extends Component {
     }
     getBadges = () => {
         const { curCode } = this.state;
-
+        const add = <Tag key={10086} color="#f50">
+            <Icon type={'plus'} /> 添加标签
+        </Tag>
         const { badges } = curCode;
-        if (!badges[0]) return null;
+        if (!badges[0]) return add;
         const bds = badges[0].split(',');
         console.log("bds", bds);
-        return bds.map((item, idx) =>
+        const tags = bds.map((item, idx) =>
             <Tag key={idx} color="#f50">{item}</Tag>
         )
+        tags.push(add);
+
+        return tags;
     }
     render() {
-        const { ready, showAddingModal } = this.state;
+        const { ready, showAddingModal, curCode } = this.state;
+        if (!curCode) return null;
+        const {
+            language,
+            title,
+            text
+        } = curCode;
         return (
             ready ?
 
                 <Layout>
                     <Sider>
                         <SideBar codeList={this.state.codes} onSelectCode={this.handleSelectCode}>
-                            <div className="options">
-                                <button className="btn" onClick={this.handleToggleShowAddingModal}>添加代码</button>
-                            </div>
+
+                            <Button style={{
+                                marginTop: 30
+                            }} onClick={this.handleToggleShowAddingModal}>添加代码</Button>
+
                             <AddingModal isShow={showAddingModal} onOk={this.handleAddCode} onCancel={this.handleToggleShowAddingModal}></AddingModal>
                         </SideBar>
                     </Sider>
@@ -145,24 +181,24 @@ class Main extends Component {
                             <div
                                 onBlur={this.finishInput}
                                 suppressContentEditableWarning
-                                contentEditable={true} className="code-title">{this.state.curCode?this.state.curCode.title:null}
+                                contentEditable={true} className="code-title">{title || null}
                             </div>
                         </Header>
                         <Content style={{
-                            padding:40,
+                            padding: 40,
                         }} hidden={this.state.curCodeId == -1}>
                             <Row>
-                                <Col span={2}>
-                                    <div>当前语言:{this.state.curCode.language}</div>
-                                    <DropDown onClick={(e) => console.log(e)} />
-                                </Col>
-                                <Col>
+                                <Col span={10}>
                                     提示:您可以双击代码片段修改代码
+                                </Col>
+                                <Col span={4} offset={10}>
+                                    <div>当前语言:{language || ''}</div>
+                                    <DropDown onClick={this.handleChangeLang} />
                                 </Col>
                             </Row>
                             <div
                                 style={{
-                                    
+
                                     paddingTop: 60
                                 }} >
                                 {this.renderCurCode()}

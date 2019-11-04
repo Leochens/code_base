@@ -4,12 +4,9 @@
     <id>1</id>
     <title>test2</title>
     <badges/>
-    <text>#include &lt;stdio.h&gt;
-
-int main(){
-            printf("hello");
-}</text>
-    <language>C</language>
+    <text>SELCET * FROM ss WHERE is ;
+</text>
+    <language>sql</language>
   </fragment>
   <fragment>
     <id>2</id>
@@ -19,13 +16,44 @@ int main(){
 int main(){
     return 0;
 }</text>
-    <language>C</language>
+    <language>cpp</language>
   </fragment>
   <fragment>
     <id>3</id>
     <title>test4</title>
     <badges/>
     <text>#include 3</text>
+    <language>python</language>
+  </fragment>
+  <fragment>
+    <title>hel</title>
+    <text>print("hello")</text>
+    <badges>ewfr,ewfrg,defrget,dafsg,fdf</badges>
     <language>C</language>
+    <id>4</id>
+  </fragment>
+  <fragment>
+    <title>defr</title>
+    <text>public static main(){
+    
+    }</text>
+    <badges>efrgt</badges>
+    <language>java</language>
+    <id>5</id>
+  </fragment>
+  <fragment>
+    <title>drfe</title>
+    <text>$ewdjkf = 12</text>
+    <badges/>
+    <language>php</language>
+    <id>6</id>
+  </fragment>
+  <fragment>
+    <title>hello</title>
+    <text>print("hello");
+</text>
+    <badges>w,wefr,wrgegr,reg</badges>
+    <language>python</language>
+    <id>7</id>
   </fragment>
 </fragments>

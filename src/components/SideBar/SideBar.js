@@ -7,14 +7,15 @@ export default class SideBar extends Component {
         codeList: [],
         onSelectCode: () => { }
     }
-    renderBadges(badges) {
+    renderBadges(badges, id) {
         const bds = badges[0].split(',');
         return bds.map((item, idx) => {
-            return <span key={idx} className="badge">{item}</span>
+            return <span key={idx} id={id} className="badge">{item}</span>
         })
     }
 
     handleSelectCode = (e) => {
+
         console.log(e.target.id);
         const { onSelectCode } = this.props;
         const id = parseInt(e.target.id);
@@ -29,7 +30,7 @@ export default class SideBar extends Component {
                     onClick={this.handleSelectCode}
                     key={idx}
                     id={item.id}>{item.title}
-                    {this.renderBadges(item.badges)}
+                    {this.renderBadges(item.badges, item.id)}
                 </div>
             )
         })

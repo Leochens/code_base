@@ -8,8 +8,10 @@ const fetchCode = (state, action) => {
 }
 
 const addCode = (state, action) => {
-    const { text } = action;
+    const { code } = action;
+
     let newState = state.slice();
+    code.id = [newState.length + 1];
     newState.push(code);
     xml.saveToXML(newState);
     return newState;
