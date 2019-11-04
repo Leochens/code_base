@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fragments>
   <fragment>
-    <id>0</id>
-    <title>js练手1</title>
-    <badges>react,js</badges>
-    <text>#include dweew &lt;stdio.h&gt;
-
-int a = &amp;g
-
-
-hello </text>
-    <language>C</language>
-  </fragment>
-  <fragment>
     <id>1</id>
-    <title>js练手2</title>
+    <title>test2</title>
     <badges/>
-    <text>if(x === 0 &amp;&amp;&amp;&amp;&amp; y === 1) </text>
+    <text>#include &lt;stdio.h&gt;
+
+int main(){
+            printf("hello");
+}</text>
     <language>C</language>
   </fragment>
   <fragment>
     <id>2</id>
-    <title>js练手3</title>
-    <badges/>
-    <text>#include 2</text>
+    <title>test3</title>
+    <badges>react,hello</badges>
+    <text>#include &lt;stdio.h&gt;
+int main(){
+    return 0;
+}</text>
     <language>C</language>
   </fragment>
   <fragment>
     <id>3</id>
-    <title>js练手4</title>
+    <title>test4</title>
     <badges/>
     <text>#include 3</text>
     <language>C</language>
   </fragment>
-  
 </fragments>

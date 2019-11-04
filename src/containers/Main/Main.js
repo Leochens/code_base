@@ -3,16 +3,22 @@ import BigInput from '../../components/BigInput/BigInput';
 import SideBar from '../../components/SideBar/SideBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import AddingModal from '../../components/AddingModal/AddingModal';
+import { Button, Input, Tag, Layout, Col, Row, message } from 'antd';
+import DropDown from '../../components/DropDown/DropDown';
 import { addCode, updateCode, deleteCode, deleteBadge, addBadge, fetchCode } from '../../actions/index';
 import xml from '../../utils/xml';
 import './Main.scss';
+const { Header, Footer, Sider, Content } = Layout;
+
+
+
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            ready: false
-        }
+
+    state = {
+        ready: false,
+        showAddingModal: false
     }
     componentDidMount() {
         // 获取codes
@@ -36,9 +42,16 @@ class Main extends Component {
             codes: nextProps.codes
         })
     }
+    handleToggleShowAddingModal = () => {
+        const { showAddingModal } = this.state;
+        this.setState({
+            showAddingModal: !showAddingModal
+        })
+    }
     handleAddCode = (text) => {
         const { addCode } = this.props;
         addCode && addCode(text);
+        this.handleToggleShowAddingModal()
     }
     renderCodeList = () => {
         const { codes } = this.state;
@@ -61,7 +74,9 @@ class Main extends Component {
         const { curCode, curCodeId } = this.state;
         if (!curCode) return;
         curCode.text[0] = text;
+
         updateCode && updateCode(curCodeId, curCode)
+        message.success("修改成功");
     }
     handleDeleteCode = () => {
         const { curCodeId } = this.state;
@@ -100,34 +115,72 @@ class Main extends Component {
         )
 
     }
-    handleAddCode = () => {
-        console.log('add');
+    getBadges = () => {
+        const { curCode } = this.state;
+
+        const { badges } = curCode;
+        if (!badges[0]) return null;
+        const bds = badges[0].split(',');
+        console.log("bds", bds);
+        return bds.map((item, idx) =>
+            <Tag key={idx} color="#f50">{item}</Tag>
+        )
     }
     render() {
-        const { ready } = this.state;
+        const { ready, showAddingModal } = this.state;
         return (
-            this.state.ready ?
-                <div className="main" >
-                    <div className="side-bar">
+            ready ?
+
+                <Layout>
+                    <Sider>
                         <SideBar codeList={this.state.codes} onSelectCode={this.handleSelectCode}>
                             <div className="options">
-                                <button className="btn" onClick={this.handleAddCode}>添加代码</button>
+                                <button className="btn" onClick={this.handleToggleShowAddingModal}>添加代码</button>
                             </div>
+                            <AddingModal isShow={showAddingModal} onOk={this.handleAddCode} onCancel={this.handleToggleShowAddingModal}></AddingModal>
                         </SideBar>
-                    </div>
-                    <header className="code-page">
-                        <div hidden={this.state.curCodeId == -1}>
+                    </Sider>
+                    <Layout>
+                        <Header hidden={this.state.curCodeId == -1}>
                             <div
                                 onBlur={this.finishInput}
                                 suppressContentEditableWarning
-                                contentEditable={true} className="code-title">{this.state.curCode.title}</div>
-                            {this.renderCurCode()}
-                            <button className="del-btn" onClick={this.handleDeleteCode} >删除本片段</button>
-                        </div>
-                    </header>
+                                contentEditable={true} className="code-title">{this.state.curCode?this.state.curCode.title:null}
+                            </div>
+                        </Header>
+                        <Content style={{
+                            padding:40,
+                        }} hidden={this.state.curCodeId == -1}>
+                            <Row>
+                                <Col span={2}>
+                                    <div>当前语言:{this.state.curCode.language}</div>
+                                    <DropDown onClick={(e) => console.log(e)} />
+                                </Col>
+                                <Col>
+                                    提示:您可以双击代码片段修改代码
+                                </Col>
+                            </Row>
+                            <div
+                                style={{
+                                    
+                                    paddingTop: 60
+                                }} >
+                                {this.renderCurCode()}
+                            </div>
+                            {this.getBadges()}
+                        </Content>
+                        <Footer style={{
+                            padding: 40
+                        }} hidden={this.state.curCodeId == -1}>
+                            <Button className="del-btn" onClick={this.handleDeleteCode} >删除本片段</Button>
+                        </Footer>
+                    </Layout>
 
-                </div > :
+                </Layout>
+                :
                 <div>加载中...</div>
+
+
         );
     }
 }

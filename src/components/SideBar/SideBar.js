@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Col, Row } from 'antd';
 import './SideBar.scss';
 export default class SideBar extends Component {
 
@@ -35,12 +36,12 @@ export default class SideBar extends Component {
     }
     render() {
         return (
-            <div className="side-bar">
+            <Col span={24} className={'side-bar'}>
                 {this.renderList()}
-                <div className="extra">
+                <Row>
                     {this.props.children}
-                </div>
-            </div>
+                </Row>
+            </Col>
         )
     }
 }
