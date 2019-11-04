@@ -6,10 +6,10 @@ async function test() {
     console.log(dom);
     const d = JSON.parse(JSON.stringify(dom));
     console.log(d);
-    d.fragments.fragment[1].text = "if(x === 0 && y === 1) ".replace(/&/g, '!!tag:amp!!');
+    d.fragments.fragment[1].text = "if(x === 0 &&&&& y === 1) ";
     utils.saveToXML(d);
 }
-test();
+// test();
 const Test = props => {
 
 

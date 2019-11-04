@@ -1,69 +1,24 @@
-import { ADD_CODE, DELETE_BADGE, DELETE_CODE, UPDATE_CODE, SEARCH_CODE, ADD_BADGE } from '../actions/types';
+import { FETCH_CODE, ADD_CODE, DELETE_BADGE, DELETE_CODE, UPDATE_CODE, SEARCH_CODE, ADD_BADGE } from '../actions/types';
 import createReducer from '../utils/createReducer';
-const initValue = [
-    {
-        "title": "js练手",
-        "badges": [
-            "react",
-            "小程序"
-        ],
-        "id": 1,
-        "text": "\nfunction fun(){\nconst age = 13;return age + 1;}",
-        "language": "javascript"
-    },
-    {
-        "title": "C语言模板",
-        "badges": [
-            "c",
-            "算法"
-        ],
-        "id": 2,
-        "text": "#include <stdio.h>int main(){printf(\"hello world\");return 0;}",
-        "language": "c"
-    },
-    {
-        "title": "Python输出",
-        "badges": [],
-        "id": 3,
-        "text": "# -*- coding:utf8 -*-print(\"hello world\")",
-        "language": "python"
-    },
-    {
-        "title": "Linux",
-        "badges": [
-            "cli",
-            "命令行"
-        ],
-        "id": 4,
-        "text": "mkdir test",
-        "language": "shell"
-    },
-    {
-        "title": "PHP建站",
-        "badges": [],
-        "id": 5,
-        "text": "$x = 12;echo $x;",
-        "language": "php"
-    },
-    {
-        "title": "html网页编写",
-        "badges": [],
-        "id": 6,
-        "text": "<h1>hello world</h1><p>this is a html test , means noting</p><div>just a joke here!</div>",
-        "language": "html"
-    }
-]
+import xml from '../utils/xml';
+
+const fetchCode = (state, action) => {
+    const { code } = action;
+    return code;
+}
 
 const addCode = (state, action) => {
     const { code } = action;
     let newState = state.slice();
     newState.push(code);
+    xml.saveToXML(newState);
     return newState;
 }
 const deleteCode = (state, action) => {
     const { id } = action;
     let newState = state.slice();
     newState = newState.filter((item, idx) => item.id != id);
+    xml.saveToXML(newState);
     return newState;
 }
 const updateCode = (state, action) => {
@@ -77,6 +32,8 @@ const updateCode = (state, action) => {
         }
     }
     newState[idx] = { ...code };
+    xml.saveToXML(newState);
+
     return newState;
 }
 const addBadge = (state, action) => {
@@ -89,6 +46,8 @@ const addBadge = (state, action) => {
             item = newItem
         }
     });
+    xml.saveToXML(newState);
+
     return newState;
 }
 const deleteBadge = (state, action) => {
@@ -102,9 +61,12 @@ const deleteBadge = (state, action) => {
             item = newItem
         }
     });
+    xml.saveToXML(newState);
+
     return newState;
 }
-const code = createReducer(initValue, {
+const code = createReducer([], {
+    [FETCH_CODE]: fetchCode,
     [ADD_CODE]: addCode,
     [DELETE_CODE]: deleteCode,
     [UPDATE_CODE]: updateCode,

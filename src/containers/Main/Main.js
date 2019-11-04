@@ -3,18 +3,33 @@ import BigInput from '../../components/BigInput/BigInput';
 import SideBar from '../../components/SideBar/SideBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addCode, updateCode, deleteCode, deleteBadge, addBadge } from '../../actions/index';
+import { addCode, updateCode, deleteCode, deleteBadge, addBadge, fetchCode } from '../../actions/index';
+import xml from '../../utils/xml';
 import './Main.scss';
 
 class Main extends Component {
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
-            codes: props.codes,
-            curCodeId: props.codes[0].id,
-            curCode: props.codes[0]
+            ready: false
         }
+    }
+    componentDidMount() {
+        // 获取codes
+        const { fetchCode } = this.props;
+        const that = this;
+        xml.loadXML().then(res => {
+            console.log(res);
+            fetchCode(res);
+            that.setState({
+                ready: true,
+                codes: res,
+                curCodeId: res[0].id,
+                curCode: res[0]
+            })
+        }).catch(e => {
+            console.log(e);
+        });
     }
     componentWillReceiveProps(nextProps) {
         this.setState({
@@ -29,12 +44,12 @@ class Main extends Component {
         const { codes } = this.state;
         console.log(codes);
         return codes.map((item, idx) => {
-            return <BigInput onlyShow={true} key={idx} id={item.id} language={item.language} text={item.text} ></BigInput>
+            return <BigInput onlyShow={true} key={idx} id={item.id} language={item.language} text={item.text[0]} ></BigInput>
         })
     }
     handleSelectCode = id => {
         const { codes } = this.state;
-        const code = codes.filter((item, idx) => item.id === id).pop();
+        const code = codes.filter((item, idx) => item.id == id).pop();
 
         this.setState({
             curCodeId: id,
@@ -45,7 +60,7 @@ class Main extends Component {
         const { updateCode } = this.props;
         const { curCode, curCodeId } = this.state;
         if (!curCode) return;
-        curCode.text = text;
+        curCode.text[0] = text;
         updateCode && updateCode(curCodeId, curCode)
     }
     handleDeleteCode = () => {
@@ -64,7 +79,7 @@ class Main extends Component {
         const { curCode, curCodeId } = this.state;
         if (!curCode) return;
 
-        curCode.title = title;
+        curCode.title[0] = title;
         updateCode && updateCode(curCodeId, curCode)
     }
     renderCurCode = () => {
@@ -72,16 +87,16 @@ class Main extends Component {
         const { codes } = this.state;
         console.log(codes)
         const code = codes.filter((item, idx) => {
-            return item.id === curCodeId
+            return item.id[0] == curCodeId
         }).pop();
         if (!code) return '';
-        console.log(code.text);
+        console.log(code.text[0]);
         return (
             <BigInput
                 onGetText={this.handleGetText}
-                id={code.id}
-                language={code.language}
-                text={code.text} ></BigInput>
+                id={code.id[0]}
+                language={code.language[0]}
+                text={code.text[0]} ></BigInput>
         )
 
     }
@@ -89,28 +104,30 @@ class Main extends Component {
         console.log('add');
     }
     render() {
+        const { ready } = this.state;
         return (
-            <div className="main">
-
-                <div className="side-bar">
-                    <SideBar codeList={this.state.codes} onSelectCode={this.handleSelectCode}>
-                        <div className="options">
-                            <button className="btn" onClick={this.handleAddCode}>添加代码</button>
-                        </div>
-                    </SideBar>
-                </div>
-                <header className="code-page">
-                    <div hidden={this.state.curCodeId === -1}>
-                        <div
-                            onBlur={this.finishInput}
-                            suppressContentEditableWarning
-                            contentEditable={true} className="code-title">{this.state.curCode.title}</div>
-                        {this.renderCurCode()}
-                        <button className="del-btn" onClick={this.handleDeleteCode} >删除本片段</button>
+            this.state.ready ?
+                <div className="main" >
+                    <div className="side-bar">
+                        <SideBar codeList={this.state.codes} onSelectCode={this.handleSelectCode}>
+                            <div className="options">
+                                <button className="btn" onClick={this.handleAddCode}>添加代码</button>
+                            </div>
+                        </SideBar>
                     </div>
-                </header>
+                    <header className="code-page">
+                        <div hidden={this.state.curCodeId == -1}>
+                            <div
+                                onBlur={this.finishInput}
+                                suppressContentEditableWarning
+                                contentEditable={true} className="code-title">{this.state.curCode.title}</div>
+                            {this.renderCurCode()}
+                            <button className="del-btn" onClick={this.handleDeleteCode} >删除本片段</button>
+                        </div>
+                    </header>
 
-            </div>
+                </div > :
+                <div>加载中...</div>
         );
     }
 }
@@ -124,6 +141,7 @@ const mapDispatchToProps = (dispatch) => {
         addCode: bindActionCreators(addCode, dispatch),
         updateCode: bindActionCreators(updateCode, dispatch),
         deleteCode: bindActionCreators(deleteCode, dispatch),
+        fetchCode: bindActionCreators(fetchCode, dispatch)
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -2,30 +2,36 @@
 <fragments>
   <fragment>
     <id>0</id>
-    <title>js练手</title>
-    <badges/>
-    <text>#include</text>
+    <title>js练手1</title>
+    <badges>react,js</badges>
+    <text>#include dweew &lt;stdio.h&gt;
+
+int a = &amp;g
+
+
+hello </text>
     <language>C</language>
   </fragment>
   <fragment>
     <id>1</id>
-    <title>js练手</title>
+    <title>js练手2</title>
     <badges/>
-    <text>if(x === 0 &amp;&amp; y === 1) </text>
+    <text>if(x === 0 &amp;&amp;&amp;&amp;&amp; y === 1) </text>
     <language>C</language>
   </fragment>
   <fragment>
     <id>2</id>
-    <title>js练手</title>
+    <title>js练手3</title>
     <badges/>
-    <text>#include</text>
+    <text>#include 2</text>
     <language>C</language>
   </fragment>
   <fragment>
     <id>3</id>
-    <title>js练手</title>
+    <title>js练手4</title>
     <badges/>
-    <text>#include</text>
+    <text>#include 3</text>
     <language>C</language>
   </fragment>
+  
 </fragments>

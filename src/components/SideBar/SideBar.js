@@ -7,7 +7,8 @@ export default class SideBar extends Component {
         onSelectCode: () => { }
     }
     renderBadges(badges) {
-        return badges.map((item, idx) => {
+        const bds = badges[0].split(',');
+        return bds.map((item, idx) => {
             return <span key={idx} className="badge">{item}</span>
         })
     }

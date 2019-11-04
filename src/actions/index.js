@@ -1,4 +1,11 @@
-import { ADD_CODE, UPDATE_CODE, DELETE_BADGE, DELETE_CODE, ADD_BADGE, SEARCH_CODE } from './types';
+import { FETCH_CODE, ADD_CODE, UPDATE_CODE, DELETE_BADGE, DELETE_CODE, ADD_BADGE, SEARCH_CODE } from './types';
+export const fetchCode = (code) => {
+    return {
+        type: FETCH_CODE,
+        code
+    }
+}
+
 export const addCode = (code) => {
     return {
         type: ADD_CODE,
@@ -6,8 +13,7 @@ export const addCode = (code) => {
     }
 }
 
-
-export const updateCode = (id,code) => {
+export const updateCode = (id, code) => {
     return {
         type: UPDATE_CODE,
         id,
