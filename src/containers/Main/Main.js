@@ -253,7 +253,7 @@ class Main extends Component {
             ready ?
                 <Layout>
                     <Sider>
-                        <SideBar codeList={this.state.codes} onSelectCode={this.handleSelectCode}>
+                        <SideBar curIndex={this.state.curCodeId} codeList={this.state.codes} onSelectCode={this.handleSelectCode}>
                             <section style={{
                                 height: 64,
                                 display: 'flex',

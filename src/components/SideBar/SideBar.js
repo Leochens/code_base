@@ -5,7 +5,8 @@ export default class SideBar extends Component {
 
     static defaultProps = {
         codeList: [],
-        onSelectCode: () => { }
+        onSelectCode: () => { },
+        curIndex: 1
     }
     renderBadges(badges, id) {
         if (badges[0] === '') return;
@@ -23,18 +24,26 @@ export default class SideBar extends Component {
 
         console.log(e.target.id);
         const { onSelectCode } = this.props;
+        this.setState({
+            curIndex: e.target.id
+        })
         const id = parseInt(e.target.id);
         onSelectCode && onSelectCode(id);
     }
     renderList() {
-        const { codeList } = this.props;
+        const { codeList, curIndex } = this.props;
         return codeList.map((item, idx) => {
             return (
                 <div
                     className="item"
                     onClick={this.handleSelectCode}
                     key={idx}
-                    id={item.id}>{item.title}&nbsp;
+                    style={{
+                        background: curIndex == item.id ? '#5E626A' : null
+                    }}
+                    id={item.id}>
+                    
+                    {item.title}&nbsp;
                     <br />
 
                     {this.renderBadges(item.badges, item.id)}
@@ -46,10 +55,10 @@ export default class SideBar extends Component {
         return (
             <Col span={24} className={'side-bar'}>
                 <Row style={{
-                    color:"#fff",
-                    fontSize:20,
-                    alignItems:'center',
-                    padding:16
+                    color: "#fff",
+                    fontSize: 20,
+                    alignItems: 'center',
+                    padding: 16
                 }} justify="center" align="middle">
                     <Icon type="unordered-list" /> &nbsp; 代码列表
                 </Row>

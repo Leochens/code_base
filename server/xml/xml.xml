@@ -7,13 +7,15 @@
     <text>#include &lt;stdio.h&gt;
 int main(){
     return 0;
+WQDEDE
+
 }</text>
     <language>python</language>
   </fragment>
   <fragment>
     <id>3</id>
     <title>无标题ewcwe</title>
-    <badges/>
+    <badges>不知该说什么</badges>
     <text>print ("jjkjk")
 </text>
     <language>python</language>
@@ -24,5 +26,15 @@ int main(){
     <badges>er4t5y65u78i9o</badges>
     <language>python</language>
     <id>8</id>
+  </fragment>
+  <fragment>
+    <title>啦啦啦</title>
+    <text>const tys = 'hehhehe';
+const a = function(){
+    console.log(tys);
+}</text>
+    <badges>可爱</badges>
+    <language>typescript</language>
+    <id>4</id>
   </fragment>
 </fragments>
