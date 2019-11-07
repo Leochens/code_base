@@ -29,7 +29,7 @@ const updateCode = (state, action) => {
     let idx = -1;
     for (let key in newState) {
         let item = newState[key];
-        if (item.id === id) {
+        if (item.id == id) {
             idx = key;
         }
     }
@@ -42,7 +42,7 @@ const addBadge = (state, action) => {
     const { id, badge } = action;
     let newState = state.slice();
     newState.forEach((item, idx) => {
-        if (item.id === id) {
+        if (item.id == id) {
             const newItem = { ...item };
             newItem.badges.push(badge);
             item = newItem
@@ -56,7 +56,7 @@ const deleteBadge = (state, action) => {
     const { codeId, badge } = action;
     let newState = state.slice();
     newState.forEach((item, idx) => {
-        if (item.id === codeId) {
+        if (item.id == codeId) {
             const newItem = { ...item };
             if (newItem.badges.includes(badge))
                 newItem.badges.splice(newItem.badges.indexOf(badge), 1);

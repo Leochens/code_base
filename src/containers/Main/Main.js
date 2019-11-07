@@ -18,7 +18,8 @@ class Main extends Component {
 
     state = {
         ready: false,
-        showAddingModal: false
+        showAddingModal: false,
+        isAddingTag: false
     }
     componentDidMount() {
         // 获取codes
@@ -29,8 +30,8 @@ class Main extends Component {
             fetchCode(res);
             that.setState({
                 ready: true,
-                codes: res,
-                curCodeId: res[0].id,
+                codes: [...res],
+                curCodeId: res[0].id[0],
                 curCode: res[0]
             })
         }).catch(e => {
@@ -67,7 +68,7 @@ class Main extends Component {
 
         this.setState({
             curCodeId: id,
-            curCode: code
+            curCode: { ...code }
         })
     }
     handleGetText = (text) => {
@@ -113,12 +114,21 @@ class Main extends Component {
     }
     finishInput = (e) => {
         console.log(e.currentTarget.innerHTML);
-        const title = e.currentTarget.innerHTML;
-        const { curCode, curCodeId } = this.state;
-        if (!curCode) return;
+        let title = e.currentTarget.innerHTML
+        if (!title) {
 
-        curCode.title[0] = title;
-        updateCode && updateCode(curCodeId, curCode)
+            title = ["无标题"];
+        }
+        const { curCode, curCodeId } = this.state;
+        const { updateCode } = this.props;
+
+        console.log(curCode, curCodeId);
+        if (!curCode) return;
+        const newCode = {
+            ...curCode,
+            title
+        }
+        updateCode && updateCode(curCodeId, { ...newCode })
     }
     renderCurCode = () => {
         const { curCodeId } = this.state;
@@ -136,12 +146,25 @@ class Main extends Component {
                 language={code.language[0]}
                 text={code.text[0]} ></BigInput>
         )
+    }
+    showAddingTag = () => {
+        this.setState({ isAddingTag: true })
+    }
+    hideAddingTag = () => {
+        this.setState({ isAddingTag: false })
+    }
+    finishAddingTag = () => {
+        console.log("finish")
+        this.setState({ isAddingTag: false })
 
     }
     getBadges = () => {
-        const { curCode } = this.state;
-        const add = <Tag key={10086} color="#f50">
-            <Icon type={'plus'} /> 添加标签
+        const { curCode, curCodeId, isAddingTag } = this.state;
+        const add = <Tag key={10086} color="#f50" onClick={this.showAddingTag}  >
+            {isAddingTag
+                ? <Input onBlur={this.hideAddingTag} suffix={<Icon type={'check-circle'} onClick={this.finishAddingTag} />}></Input>
+                : <Icon type={'plus'} />
+            }
         </Tag>
         const { badges } = curCode;
         if (!badges[0]) return add;
@@ -168,15 +191,22 @@ class Main extends Component {
                 <Layout>
                     <Sider>
                         <SideBar codeList={this.state.codes} onSelectCode={this.handleSelectCode}>
+                            <section style={{
+                                height: 64,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <Button onClick={this.handleToggleShowAddingModal}>添加代码</Button>
 
-                            <Button style={{
-                                marginTop: 30
-                            }} onClick={this.handleToggleShowAddingModal}>添加代码</Button>
+                            </section>
 
                             <AddingModal isShow={showAddingModal} onOk={this.handleAddCode} onCancel={this.handleToggleShowAddingModal}></AddingModal>
                         </SideBar>
                     </Sider>
-                    <Layout>
+                    <Layout style={{
+                        height: window.innerHeight // 设置全屏
+                    }}>
                         <Header hidden={this.state.curCodeId == -1}>
                             <div
                                 onBlur={this.finishInput}

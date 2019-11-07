@@ -38,10 +38,10 @@ export default class SideBar extends Component {
     render() {
         return (
             <Col span={24} className={'side-bar'}>
-                {this.renderList()}
-                <Row>
+                <Row >
                     {this.props.children}
                 </Row>
+                {this.renderList()}
             </Col>
         )
     }
