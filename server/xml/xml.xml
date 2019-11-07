@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <fragments>
   <fragment>
-    <id>1</id>
-    <title>无标题</title>
-    <badges>verver,dcvervr,rfr3f3r,sql语句,edew</badges>
-    <text># -*-cewf
-from a import b
-print("hello")</text>
-    <language>JavaScript</language>
-  </fragment>
-  <fragment>
     <id>2</id>
     <title>这是一个C语言片段</title>
     <badges/>
@@ -28,65 +19,10 @@ int main(){
     <language>python</language>
   </fragment>
   <fragment>
-    <title>hel</title>
-    <text>print("hello")</text>
-    <badges>fdf</badges>
-    <language>C</language>
-    <id>4</id>
-  </fragment>
-  <fragment>
-    <title>defr</title>
-    <text>public static main(){
-    
-    }</text>
-    <badges>efrgt</badges>
-    <language>java</language>
-    <id>5</id>
-  </fragment>
-  <fragment>
-    <title>drfe</title>
-    <text>$ewdjkf = 12</text>
-    <badges/>
-    <language>javascript</language>
-    <id>6</id>
-  </fragment>
-  <fragment>
-    <title>hello</title>
-    <text>print("hello");
-this is a s   sssss ss s s </text>
-    <badges>w,wefr,wrgegr,reg</badges>
-    <language>python</language>
-    <id>7</id>
-  </fragment>
-  <fragment>
     <title>fregtyhtuyi</title>
     <text>print("hello")</text>
     <badges>er4t5y65u78i9o</badges>
     <language>python</language>
     <id>8</id>
-  </fragment>
-  <fragment>
-    <title>css代码测试</title>
-    <text>.close{
-    width: 0;
-    height: 0;
-    position: absolute;
-    top: 100px;
-    display: block;
-    z-index: -100;
-}
-.open{
-    padding: 0;
-    margin: 0;
-    display: block;
-    width: 100%;
-    margin: auto;
-
-    min-height: 100px;
-    overflow: auto;
-}</text>
-    <badges>css,hello</badges>
-    <language>css</language>
-    <id>9</id>
   </fragment>
 </fragments>

@@ -18,7 +18,7 @@ export default class BigInput extends Component {
         language: 'html',
         text: '',
         onlyShow: false,
-        type: 'col',
+        type: '横排',
         onGetText: (text) => { console.log(text) }
     }
     state = {
@@ -85,7 +85,7 @@ export default class BigInput extends Component {
         const { isEdit, language } = this.state;
         console.log(language);
         return (
-            type === 'col' ?
+            type === '竖排' ?
                 <Row>
                     <label htmlFor="hl" onDoubleClick={this.toggleEdit}>
                         {isEdit ?
@@ -136,8 +136,6 @@ export default class BigInput extends Component {
                             onKeyDown={this.onKeyDown}
                             value={this.state.text}>
                         </textarea>
-                        {/* <button className="inp-button" onClick={this.toggleEdit} >{this.state.isEdit ? '完成' : '编辑'}</button> */}
-                        {/* <button className="inp-button" onClick={this.handleGetText}>保存</button> */}
                     </div>
                 </div>
         )

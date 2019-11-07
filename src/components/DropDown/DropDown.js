@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Dropdown, Icon } from 'antd';
+import { Menu, Dropdown, Icon, Tooltip } from 'antd';
 
 const LangDropDown = props => {
     const { onClick, curLang } = props;
@@ -36,9 +36,11 @@ const LangDropDown = props => {
                 {getMenu(onClick)}
             </Menu>
         }}>
-            <a className="ant-dropdown-link" href="#">
-                设置语言{lang || ":"} <Icon type="down" />
-            </a>
+            <span className="ant-dropdown-link" href="#">
+                <Tooltip title="选择代码语言">
+                    <Icon type="number" />
+                </Tooltip>
+            </span>
         </Dropdown>
     )
 }
@@ -64,9 +66,11 @@ const ModeDropdown = props => {
                 {getMenu(onClick)}
             </Menu>
         }}>
-            <a className="ant-dropdown-link" href="#">
-                视图模式:{mode} <Icon type="down" />
-            </a>
+            <span className="ant-dropdown-link" href="#">
+                <Tooltip title="视图模式,切换模式前注意保存代码">
+                    <Icon type="layout" />:&nbsp;{mode}
+                </Tooltip>
+            </span>
         </Dropdown>
     )
 }

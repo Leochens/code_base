@@ -4,7 +4,7 @@ import SideBar from '../../components/SideBar/SideBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AddingModal from '../../components/AddingModal/AddingModal';
-import { Button, Input, Tag, Layout, Col, Row, message, Icon, Popconfirm } from 'antd';
+import { Button, Input, Tag, BackTop, Layout, Col, Row, message, Icon, Popconfirm, Tooltip, Modal } from 'antd';
 import DropDown from '../../components/DropDown/DropDown';
 import { addCode, updateCode, deleteCode, deleteBadge, addBadge, fetchCode } from '../../actions/index';
 import xml from '../../utils/xml';
@@ -21,7 +21,7 @@ class Main extends Component {
         showAddingModal: false,
         isAddingTag: false,
         tagValue: '',
-        mode: 'col',
+        mode: '横排',
         flushKey: getFlushKey()
     }
     componentDidMount() {
@@ -111,11 +111,20 @@ class Main extends Component {
         const { curCodeId } = this.state;
         const { deleteCode } = this.props;
         console.log(curCodeId, deleteCode);
-        deleteCode && deleteCode(curCodeId);
-        this.setState({
-            curCodeId: -1,
-            curCode: {}
+        const that = this;
+
+        Modal.confirm({
+            title: "警告",
+            content: "确认删除该代码片段吗?",
+            onOk: () => {
+                deleteCode && deleteCode(curCodeId);
+                that.setState({
+                    curCodeId: -1,
+                    curCode: {}
+                })
+            }
         })
+
     }
     finishInput = (e) => {
         console.log(e.currentTarget.innerHTML);
@@ -137,7 +146,7 @@ class Main extends Component {
     }
     renderCurCode = () => {
         const { curCodeId } = this.state;
-        const { codes } = this.state;
+        const { codes, mode } = this.state;
 
         const code = codes.filter((item, idx) => {
             return item.id[0] == curCodeId
@@ -147,6 +156,7 @@ class Main extends Component {
             <BigInput
                 onGetText={this.handleGetText}
                 id={code.id[0]}
+                type={mode}
                 language={code.language[0]}
                 text={code.text[0]} ></BigInput>
         )
@@ -210,7 +220,7 @@ class Main extends Component {
             : <Tag key={10086} color="#f50" onClick={this.showAddingTag}  ><Icon type={'plus'} /></Tag>
 
         const { badges } = curCode;
-        if (!badges[0]) return add;
+        if (!badges || !badges[0]) return add;
         const bds = badges[0].split(',');
         console.log("bds", bds);
         const tags = bds.map((item, idx) =>
@@ -226,6 +236,10 @@ class Main extends Component {
         )
         tags.push(add);
         return tags;
+    }
+    handleChangeMode = mode => {
+        console.log(mode);
+        this.setState({ mode })
     }
     render() {
         const { ready, showAddingModal, curCode } = this.state;
@@ -266,23 +280,37 @@ class Main extends Component {
                             padding: 40,
                             overflow: 'auto'
                         }} hidden={this.state.curCodeId == -1}>
-                            <Row>
-                                <Col span={10}>
-                                    提示:您可以双击代码片段修改代码
-                                    <DropDown.ModeDropdown onClick={() => this.handleChangeMode} />
+                            <Row gutter={1} style={{
+                                fontWeight: 600,
+                                color: "rgb(24, 144, 251)"
+                            }}>
+                                <Col span={2}>
+                                    <Tooltip title="点击查看帮助">
+                                        <Icon type="bulb" />:&nbsp;帮助
+                                    </Tooltip>
                                 </Col>
-                                <Col span={5} offset={9}>
-                                    <div>当前语言:{language || ''}</div>
-                                    <DropDown.LangDropDown onClick={this.handleChangeLang} />
+                                <Col span={2}>
+                                    <DropDown.ModeDropdown curMode={this.state.mode} onClick={this.handleChangeMode} />
+                                </Col>
+                                <Col span={2} onClick={this.handleDeleteCode}>
+                                    <Icon type="delete" />:&nbsp;删除
+                                </Col>
+                                <Col span={3}>
+                                    <DropDown.LangDropDown onClick={this.handleChangeLang} /> :{language}
                                 </Col>
                             </Row>
                             <div
                                 style={{
-                                    paddingTop: 60
+                                    paddingTop: 20
                                 }} >
                                 {this.renderCurCode()}
                             </div>
-                            {this.getBadges()}
+                            <Row style={{
+                                marginTop: 20
+                            }}>
+                                {this.getBadges()}
+
+                            </Row>
                         </Content>
                         <Footer style={{
                             padding: 40
