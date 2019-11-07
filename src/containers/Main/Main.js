@@ -4,14 +4,14 @@ import SideBar from '../../components/SideBar/SideBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AddingModal from '../../components/AddingModal/AddingModal';
-import { Button, Input, Tag, Layout, Col, Row, message, Icon } from 'antd';
+import { Button, Input, Tag, Layout, Col, Row, message, Icon, Popconfirm } from 'antd';
 import DropDown from '../../components/DropDown/DropDown';
 import { addCode, updateCode, deleteCode, deleteBadge, addBadge, fetchCode } from '../../actions/index';
 import xml from '../../utils/xml';
 import './Main.scss';
 const { Header, Footer, Sider, Content } = Layout;
 
-
+const getFlushKey = () => Math.random() * 10000
 
 
 class Main extends Component {
@@ -19,7 +19,10 @@ class Main extends Component {
     state = {
         ready: false,
         showAddingModal: false,
-        isAddingTag: false
+        isAddingTag: false,
+        tagValue: '',
+        mode: 'col',
+        flushKey: getFlushKey()
     }
     componentDidMount() {
         // 获取codes
@@ -40,7 +43,8 @@ class Main extends Component {
     }
     componentWillReceiveProps(nextProps) {
         this.setState({
-            codes: nextProps.codes
+            codes: nextProps.codes,
+            flushKey: getFlushKey()
         })
     }
     handleToggleShowAddingModal = () => {
@@ -55,10 +59,10 @@ class Main extends Component {
         this.handleToggleShowAddingModal()
     }
     renderCodeList = () => {
-        const { codes } = this.state;
+        const { codes, flushKey } = this.state;
         console.log(codes);
         return codes.map((item, idx) => {
-            return <BigInput onlyShow={true} key={idx} id={item.id} language={item.language} text={item.text[0]} ></BigInput>
+            return <BigInput key={flushKey} onlyShow={true} key={idx} id={item.id} language={item.language[0]} text={item.text[0]} ></BigInput>
         })
     }
     handleSelectCode = id => {
@@ -90,16 +94,17 @@ class Main extends Component {
         const { updateCode } = this.props;
         const { curCode, curCodeId } = this.state;
         if (!curCode) return;
-        const newCurCode = { ...curCode };
+        const newCurCode = {
+            ...curCode,
+            language: [lang]
+        };
         this.setState({
             curCode: {
                 ...this.state.curCode,
                 language: [lang]
             }
         })
-        newCurCode.language[0] = lang;
-
-        updateCode && updateCode(curCodeId, curCode)
+        updateCode && updateCode(curCodeId, newCurCode)
         message.success("修改成功");
     }
     handleDeleteCode = () => {
@@ -133,12 +138,11 @@ class Main extends Component {
     renderCurCode = () => {
         const { curCodeId } = this.state;
         const { codes } = this.state;
-        console.log(codes)
+
         const code = codes.filter((item, idx) => {
             return item.id[0] == curCodeId
         }).pop();
         if (!code) return '';
-        console.log(code.text[0]);
         return (
             <BigInput
                 onGetText={this.handleGetText}
@@ -153,28 +157,74 @@ class Main extends Component {
     hideAddingTag = () => {
         this.setState({ isAddingTag: false })
     }
+    handleNewTagChange = e => { this.setState({ tagValue: e.target.value }); }
     finishAddingTag = () => {
         console.log("finish")
-        this.setState({ isAddingTag: false })
+
+        const { curCodeId, curCode, tagValue } = this.state;
+        if (!tagValue.trim()) return this.hideAddingTag();
+        const { updateCode } = this.props;
+        const newCode = {
+            ...curCode,
+            badges: [curCode.badges[0] + (curCode.badges[0] ? ',' : '') + tagValue]
+        };
+        this.setState({
+            curCode: newCode,
+            isAddingTag: false
+        })
+        updateCode && updateCode(curCodeId, newCode);
+    }
+    deleteTags = (tag) => {
+
+        const { curCodeId, curCode } = this.state;
+        const { updateCode } = this.props;
+        const badges = curCode.badges[0].split(',');
+
+        if (badges.includes(tag)) badges.splice(badges.indexOf(tag), 1);
+        const newCode = {
+            ...curCode,
+            badges: [badges.join(',')]
+        };
+        this.setState({
+            curCode: newCode,
+        })
+        updateCode && updateCode(curCodeId, newCode);
 
     }
     getBadges = () => {
         const { curCode, curCodeId, isAddingTag } = this.state;
-        const add = <Tag key={10086} color="#f50" onClick={this.showAddingTag}  >
-            {isAddingTag
-                ? <Input onBlur={this.hideAddingTag} suffix={<Icon type={'check-circle'} onClick={this.finishAddingTag} />}></Input>
-                : <Icon type={'plus'} />
-            }
-        </Tag>
+        const add = isAddingTag
+            ? <span key={10086}>
+                <Input size={'small'} style={{
+                    width: 100
+                }} onChange={this.handleNewTagChange} suffix={<div onClick={(this.finishAddingTag)}></div>}></Input>
+                <Icon style={{
+                    marginLeft: 10,
+                    color: '#f50'
+                }} type={'check-circle'} onClick={(this.finishAddingTag)} />
+                <Icon style={{
+                    marginLeft: 10,
+                    color: '#666'
+                }} type={'close-circle'} onClick={(this.hideAddingTag)} />
+            </span>
+            : <Tag key={10086} color="#f50" onClick={this.showAddingTag}  ><Icon type={'plus'} /></Tag>
+
         const { badges } = curCode;
         if (!badges[0]) return add;
         const bds = badges[0].split(',');
         console.log("bds", bds);
         const tags = bds.map((item, idx) =>
-            <Tag key={idx} color="#f50">{item}</Tag>
+            <Popconfirm
+                key={idx}
+                title="确认删除这个标签吗"
+                onConfirm={() => this.deleteTags(item)}
+                okText="确认"
+                cancelText="取消"
+            >
+                <Tag color="#f50">{item}</Tag>
+            </Popconfirm>
         )
         tags.push(add);
-
         return tags;
     }
     render() {
@@ -187,7 +237,6 @@ class Main extends Component {
         } = curCode;
         return (
             ready ?
-
                 <Layout>
                     <Sider>
                         <SideBar codeList={this.state.codes} onSelectCode={this.handleSelectCode}>
@@ -198,7 +247,6 @@ class Main extends Component {
                                 alignItems: 'center'
                             }}>
                                 <Button onClick={this.handleToggleShowAddingModal}>添加代码</Button>
-
                             </section>
 
                             <AddingModal isShow={showAddingModal} onOk={this.handleAddCode} onCancel={this.handleToggleShowAddingModal}></AddingModal>
@@ -216,19 +264,20 @@ class Main extends Component {
                         </Header>
                         <Content style={{
                             padding: 40,
+                            overflow: 'auto'
                         }} hidden={this.state.curCodeId == -1}>
                             <Row>
                                 <Col span={10}>
                                     提示:您可以双击代码片段修改代码
+                                    <DropDown.ModeDropdown onClick={() => this.handleChangeMode} />
                                 </Col>
-                                <Col span={4} offset={10}>
+                                <Col span={5} offset={9}>
                                     <div>当前语言:{language || ''}</div>
-                                    <DropDown onClick={this.handleChangeLang} />
+                                    <DropDown.LangDropDown onClick={this.handleChangeLang} />
                                 </Col>
                             </Row>
                             <div
                                 style={{
-
                                     paddingTop: 60
                                 }} >
                                 {this.renderCurCode()}

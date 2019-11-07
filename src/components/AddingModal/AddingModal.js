@@ -36,7 +36,7 @@ const AddingModal = props => {
                 onChange={e => setValue(e.target.value)}
             />
             <Input value={tag} placeholder={"输入标签，以逗号分隔"} onChange={e => setTag(e.target.value)} />
-            <DropDown onClick={lang => setLang(lang)} />
+            <DropDown.LangDropDown onClick={lang => setLang(lang)} />
         </Modal>
     );
 }

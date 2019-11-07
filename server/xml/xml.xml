@@ -3,33 +3,34 @@
   <fragment>
     <id>1</id>
     <title>无标题</title>
-    <badges/>
-    <text>SELCET * FROM ss WHERE is ;
-#efwefr
-#fewkfrefwfr</text>
-    <language>javascript</language>
+    <badges>verver,dcvervr,rfr3f3r,sql语句,edew</badges>
+    <text># -*-cewf
+from a import b
+print("hello")</text>
+    <language>JavaScript</language>
   </fragment>
   <fragment>
     <id>2</id>
     <title>这是一个C语言片段</title>
-    <badges>react,hello</badges>
+    <badges/>
     <text>#include &lt;stdio.h&gt;
 int main(){
     return 0;
 }</text>
-    <language>C</language>
+    <language>python</language>
   </fragment>
   <fragment>
     <id>3</id>
-    <title>无标题</title>
+    <title>无标题ewcwe</title>
     <badges/>
-    <text>#include 3</text>
+    <text>print ("jjkjk")
+</text>
     <language>python</language>
   </fragment>
   <fragment>
     <title>hel</title>
     <text>print("hello")</text>
-    <badges>ewfr,ewfrg,defrget,dafsg,fdf</badges>
+    <badges>fdf</badges>
     <language>C</language>
     <id>4</id>
   </fragment>
@@ -60,8 +61,32 @@ this is a s   sssss ss s s </text>
   <fragment>
     <title>fregtyhtuyi</title>
     <text>print("hello")</text>
-    <badges>thyjtukiulopo,er4t5y65u78i9o</badges>
+    <badges>er4t5y65u78i9o</badges>
     <language>python</language>
     <id>8</id>
+  </fragment>
+  <fragment>
+    <title>css代码测试</title>
+    <text>.close{
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: 100px;
+    display: block;
+    z-index: -100;
+}
+.open{
+    padding: 0;
+    margin: 0;
+    display: block;
+    width: 100%;
+    margin: auto;
+
+    min-height: 100px;
+    overflow: auto;
+}</text>
+    <badges>css,hello</badges>
+    <language>css</language>
+    <id>9</id>
   </fragment>
 </fragments>

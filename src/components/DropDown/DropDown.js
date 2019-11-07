@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Menu, Dropdown, Icon } from 'antd';
 
-const _DropDown = props => {
+const LangDropDown = props => {
     const { onClick, curLang } = props;
     const [lang, setLang] = useState(curLang);
     const getMenu = onClick => [
         'C',
         'cpp',
-        'javascript',
-        'python',
+        'JavaScript',
+        'Python',
         'php',
         'java',
         'sql',
@@ -18,6 +18,7 @@ const _DropDown = props => {
         'typescript',
         'xml',
         'apache',
+        'css',
         'text'
     ].map((item, idx) => {
         return (
@@ -41,5 +42,36 @@ const _DropDown = props => {
         </Dropdown>
     )
 }
+const ModeDropdown = props => {
+    const { onClick, curMode } = props;
+    const [mode, setMode] = useState(curMode);
+    const getMenu = onClick => [
+        '竖排',
+        '横排'
+    ].map((item, idx) => {
+        return (
+            <Menu.Item key={idx} onClick={() => {
+                onClick(item)
+                setMode(item);
+            }}>
+                {item}
+            </Menu.Item>
+        )
+    });
+    return (
+        <Dropdown overlay={() => {
+            return <Menu>
+                {getMenu(onClick)}
+            </Menu>
+        }}>
+            <a className="ant-dropdown-link" href="#">
+                视图模式:{mode} <Icon type="down" />
+            </a>
+        </Dropdown>
+    )
+}
 
-export default _DropDown;
+export default {
+    ModeDropdown,
+    LangDropDown
+};

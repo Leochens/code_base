@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Highlight from 'react-highlight';
+import { Col, Row, Input } from 'antd';
 import '../../../node_modules/highlight.js/styles/github.css'
 import './BigInput.scss';
+const { TextArea } = Input;
 /* 
 代码输入组件
 功能：
@@ -16,6 +18,7 @@ export default class BigInput extends Component {
         language: 'html',
         text: '',
         onlyShow: false,
+        type: 'col',
         onGetText: (text) => { console.log(text) }
     }
     state = {
@@ -23,15 +26,18 @@ export default class BigInput extends Component {
         isEdit: false
     }
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         this.setState({
             text: nextProps.text,
             language: nextProps.language
         })
     }
+
     componentDidMount() {
         console.log(this.props);
         this.setState({
-            text: this.props.text
+            text: this.props.text,
+            language: this.props.language
         })
     }
     toggleEdit = () => {
@@ -75,26 +81,65 @@ export default class BigInput extends Component {
     }
 
     render() {
+        const { type, onlyShow } = this.props
+        const { isEdit, language } = this.state;
+        console.log(language);
         return (
-            <div className="inp">
-                <label htmlFor="hl" onDoubleClick={this.toggleEdit} >
-                    <Highlight className={this.props.language + " hl"}>
-                        {this.state.text}
-                    </Highlight>
-                </label>
-                <div hidden={this.props.onlyShow}>
-                    <textarea
-                        id="hl"
-                        className={this.state.isEdit ? 'open' : 'close'}
-                        onChange={this.onChange}
-                        onKeyDown={this.onKeyDown}
-                        value={this.state.text}>
-                    </textarea>
-                    {/* <button className="inp-button" onClick={this.toggleEdit} >{this.state.isEdit ? '完成' : '编辑'}</button> */}
-                    {/* <button className="inp-button" onClick={this.handleGetText}>保存</button> */}
+            type === 'col' ?
+                <Row>
+                    <label htmlFor="hl" onDoubleClick={this.toggleEdit}>
+                        {isEdit ?
+                            <Col span={12}>
+                                <div>
+                                    <TextArea
+                                        id="hl"
+                                        style={{
+                                            border: '1px solid transparent',
+                                            borderRadius: 6,
+                                            outline: "none",
+                                            padding: 4
+                                        }}
+                                        autoSize={{ minRows: 1 }}
+                                        className={this.state.isEdit ? 'open' : 'close'}
+                                        onChange={this.onChange}
+                                        onKeyDown={this.onKeyDown}
+                                        value={this.state.text}>
+                                    </TextArea>
+                                </div>
+                            </Col> :
+                            <div></div>
+                        }
+                        <Col span={isEdit ? 12 : 24}>
+                            <Highlight className={language + " hl"}>
+                                {this.state.text ? this.state.text : "当前无代码，请双击添加"}
+                            </Highlight>
+                        </Col>
+                    </label>
+                </Row>
+                : <div className="inp">
+                    <label htmlFor="hl" onDoubleClick={this.toggleEdit} >
+                        <Highlight className={language + " hl"}>
+                            {this.state.text}
+                        </Highlight>
+                    </label>
+                    <div hidden={this.props.onlyShow}>
+                        <textarea
+                            id="hl"
+                            style={{
+                                border: '1px solid transparent',
+                                borderRadius: 6,
+                                outline: "none",
+                                padding: 4
+                            }}
+                            className={this.state.isEdit ? 'open' : 'close'}
+                            onChange={this.onChange}
+                            onKeyDown={this.onKeyDown}
+                            value={this.state.text}>
+                        </textarea>
+                        {/* <button className="inp-button" onClick={this.toggleEdit} >{this.state.isEdit ? '完成' : '编辑'}</button> */}
+                        {/* <button className="inp-button" onClick={this.handleGetText}>保存</button> */}
+                    </div>
                 </div>
-
-            </div>
         )
 
     }
