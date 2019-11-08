@@ -37,4 +37,22 @@ const a = function(){
     <language>typescript</language>
     <id>4</id>
   </fragment>
+  <fragment>
+    <title>reducer</title>
+    <text>import { FETCH_CODE, ADD_CODE, DELETE_BADGE, DELETE_CODE, UPDATE_CODE, SEARCH_CODE, ADD_BADGE } from '../actions/types';
+import createReducer from '../utils/createReducer';
+import xml from '../utils/xml';
+const fetchCode = (state, action) =&gt; {
+    const { code } = action;
+    return code;
+}
+
+
+
+
+</text>
+    <badges>codebase</badges>
+    <language>Python</language>
+    <id>5</id>
+  </fragment>
 </fragments>

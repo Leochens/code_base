@@ -4,7 +4,8 @@ import xml from '../utils/xml';
 
 const fetchCode = (state, action) => {
     const { code } = action;
-    return code;
+
+    return code || [];
 }
 
 const addCode = (state, action) => {

@@ -11,7 +11,6 @@ const LangDropDown = props => {
         'Python',
         'php',
         'java',
-        'sql',
         'bash',
         'ruby',
         'go',

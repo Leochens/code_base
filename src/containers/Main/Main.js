@@ -4,11 +4,12 @@ import SideBar from '../../components/SideBar/SideBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AddingModal from '../../components/AddingModal/AddingModal';
-import { Button, Input, Tag, BackTop, Layout, Col, Row, message, Icon, Popconfirm, Tooltip, Modal } from 'antd';
+import { Button, Input, Tag, Statistic, Layout, Col, Row, message, Icon, Popconfirm, Tooltip, Modal, Result } from 'antd';
 import DropDown from '../../components/DropDown/DropDown';
 import { addCode, updateCode, deleteCode, deleteBadge, addBadge, fetchCode } from '../../actions/index';
 import xml from '../../utils/xml';
 import './Main.scss';
+import TipCollapse from '../../components/TipCollapse/TipCollapse';
 const { Header, Footer, Sider, Content } = Layout;
 
 const getFlushKey = () => Math.random() * 10000
@@ -30,13 +31,22 @@ class Main extends Component {
         const that = this;
         xml.loadXML().then(res => {
             console.log(res);
+
             fetchCode(res);
-            that.setState({
-                ready: true,
-                codes: [...res],
-                curCodeId: res[0].id[0],
-                curCode: res[0]
-            })
+            if (res)
+                that.setState({
+                    codes: [...res],
+                    curCodeId: res[0].id[0],
+                    curCode: res[0]
+                })
+            else {
+                that.setState({
+                    codes: [],
+                    curCodeId: -1,
+                    curCode: {}
+                })
+            }
+            that.setState({ ready: true })
         }).catch(e => {
             console.log(e);
         });
@@ -69,7 +79,6 @@ class Main extends Component {
         const { codes } = this.state;
         console.log(id);
         const code = codes.filter((item, idx) => item.id[0] == id).pop();
-
         this.setState({
             curCodeId: id,
             curCode: { ...code }
@@ -252,17 +261,10 @@ class Main extends Component {
         return (
             ready ?
                 <Layout>
-                    <Sider>
+                    <Sider style={{
+                        height: window.innerHeight // 设置全屏
+                    }}>
                         <SideBar curIndex={this.state.curCodeId} codeList={this.state.codes} onSelectCode={this.handleSelectCode}>
-                            <section style={{
-                                height: 64,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center'
-                            }}>
-                                <Button onClick={this.handleToggleShowAddingModal}>添加代码</Button>
-                            </section>
-
                             <AddingModal isShow={showAddingModal} onOk={this.handleAddCode} onCancel={this.handleToggleShowAddingModal}></AddingModal>
                         </SideBar>
                     </Sider>
@@ -304,6 +306,7 @@ class Main extends Component {
                                     paddingTop: 20
                                 }} >
                                 {this.renderCurCode()}
+                                <TipCollapse />
                             </div>
                             <Row style={{
                                 marginTop: 20
@@ -312,10 +315,25 @@ class Main extends Component {
 
                             </Row>
                         </Content>
+                        <Content hidden={this.state.curCodeId != -1}>
+                            <Result
+                                style={{
+                                    marginTop:60
+                                }}
+                                title={'此时您的库里还没有代码!'}
+                                icon={<Icon type="plus-square" />}
+                                extra={<Button type={'primary'} onClick={this.handleToggleShowAddingModal}>添加代码</Button>}
+                            />
+                        </Content>
                         <Footer style={{
                             padding: 40
-                        }} hidden={this.state.curCodeId == -1}>
-                            <Button className="del-btn" onClick={this.handleDeleteCode} >删除本片段</Button>
+                        }}
+                            hidden={this.state.curCodeId == -1}
+                        >
+                            <Col span={3}>
+                                <Statistic title="代码片段数量" value={this.state.codes.length} />
+                            </Col>
+                            <Button onClick={this.handleToggleShowAddingModal}>添加代码</Button>
                         </Footer>
                     </Layout>
 

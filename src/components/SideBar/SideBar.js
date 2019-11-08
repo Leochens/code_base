@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Row, Icon } from 'antd';
+import { Col, Row, Icon, List } from 'antd';
 import './SideBar.scss';
 export default class SideBar extends Component {
 
@@ -32,9 +32,25 @@ export default class SideBar extends Component {
     }
     renderList() {
         const { codeList, curIndex } = this.props;
-        return codeList.map((item, idx) => {
-            return (
-                <div
+
+
+        return <List
+            header={<Row style={{
+                color: "#fff",
+                fontSize: 20,
+                alignItems: 'center',
+                padding: 6
+            }} justify="center" align="middle">
+                <Icon type="unordered-list" /> &nbsp; 代码列表
+            </Row>}
+            style={{
+                height: "100%",
+                overflow: 'auto'
+            }}
+            dataSource={codeList}
+
+            renderItem={(item, idx) => {
+                return <div
                     className="item"
                     onClick={this.handleSelectCode}
                     key={idx}
@@ -42,26 +58,21 @@ export default class SideBar extends Component {
                         background: curIndex == item.id ? '#5E626A' : null
                     }}
                     id={item.id}>
-                    
+
                     {item.title}&nbsp;
-                    <br />
+                <br />
 
                     {this.renderBadges(item.badges, item.id)}
                 </div>
-            )
-        })
+            }}
+        >
+
+        </List>
     }
     render() {
         return (
-            <Col span={24} className={'side-bar'}>
-                <Row style={{
-                    color: "#fff",
-                    fontSize: 20,
-                    alignItems: 'center',
-                    padding: 16
-                }} justify="center" align="middle">
-                    <Icon type="unordered-list" /> &nbsp; 代码列表
-                </Row>
+            <Col style={{ height: "100%" }} span={24} className={'side-bar'}>
+
                 {this.renderList()}
                 <Row >
                     {this.props.children}
