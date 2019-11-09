@@ -33,7 +33,7 @@ WQDEDE
 const a = function(){
     console.log(tys);
 }</text>
-    <badges>可爱</badges>
+    <badges>ewf</badges>
     <language>typescript</language>
     <id>4</id>
   </fragment>
@@ -54,5 +54,12 @@ const fetchCode = (state, action) =&gt; {
     <badges>codebase</badges>
     <language>Python</language>
     <id>5</id>
+  </fragment>
+  <fragment>
+    <title>ee</title>
+    <text>fewfewef</text>
+    <badges>wfef,edew,efe</badges>
+    <language>java</language>
+    <id>6</id>
   </fragment>
 </fragments>

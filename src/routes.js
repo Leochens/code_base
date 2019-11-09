@@ -9,7 +9,7 @@ import SideBar from './components/SideBar/SideBar';
 const AppRoutes = () => (
   <div>
 
-    <Route path="/index" component={Main}></Route>
+    <Route path="/" component={Main}></Route>
     <Route path="/test" component={Test}></Route>
     <Route path="/newcode" component={NewCode}></Route>
 

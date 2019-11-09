@@ -35,7 +35,7 @@ const xml2Escape = function (xml) {
     return xml.replace(/!!tag:amp!！/g, '&');
 }
 app.get('/xml', function (req, res) {
-    getBaseData('xml/xml.xml').then(result => {
+    getBaseData('./xml/xml.xml').then(result => {
         res.send(result);
     }
     ).catch(e => {
