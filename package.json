@@ -5,7 +5,7 @@
   "dependencies": {
     "@lite-js/xml": "0.0.3",
     "antd": "^3.24.3",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "file-saver": "^2.0.2",
